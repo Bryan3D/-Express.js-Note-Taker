@@ -12,20 +12,20 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 //middleware
-app.use(express.static('public'));
+app.use(express.static('./Develop/public'));
 
 //routes
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
+    res.sendFile(path.join(__dirname, './Develop/public/index.html'));
 });
 
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/notes.html'));
+    res.sendFile(path.join(__dirname, './Develop/public/notes.html'));
 });
 
 // request
 app.get('/api/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, 'db/db.json'));
+    res.sendFile(path.join(__dirname, './Develop/db/db.json'));
 });
 
 app.get('/api/notes/:id' , (req , res)=>{
@@ -45,13 +45,13 @@ app.post('/api/notes', (req, res) => {
         console.log(data);
 
     //read
-    fs.readFile(path.join(__dirname, 'db/db.json'), 'utf8', (err, data) => {
+    fs.readFile(path.join(__dirname, './Develop/db/db.json'), 'utf8', (err, data) => {
         if (err) throw err;
         const notes = JSON.parse(data);
         const newNote = req.body;
         notes.push(newNote);
         //write
-        fs.writeFile(path.join(__dirname, 'db/db.json'), JSON.stringify(notes), (err) => {
+        fs.writeFile(path.join(__dirname, './Develop/db/db.json'), JSON.stringify(notes), (err) => {
             if (err) throw err;
             res.json(notes);
         });
