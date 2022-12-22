@@ -25,7 +25,9 @@ A Note Taker can be used to take notes and save them. This application will use 
 ## Installation and Test Instructions
 ---
 
-This application relies on a file system and inquirer module. If testing is required, this application uses Express.js.
+This application relies on a file system and inquirer module. If testing is required, this application uses Express.js and Heroku upload the app.
+
+![Heroku link](https://git.heroku.com/taken-note-app.git)
 
 ## Note Taker Demo Image
 ---
