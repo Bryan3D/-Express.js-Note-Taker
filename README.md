@@ -7,6 +7,7 @@
 - [📓 Express.js: Note Taker](#-expressjs-note-taker)
   - [Table of Contents](#table-of-contents)
   - [Project Description](#project-description)
+  - [Installation and Test Instructions](#installation-and-test-instructions)
   - [Note Taker Demo Image](#note-taker-demo-image)
   - [Inquire](#inquire)
   - [License](#license)
@@ -21,10 +22,15 @@ A Note Taker can be used to take notes and save them. This application will use 
 </p>
 
 ---
-## Note Taker Demo Image
+## Installation and Test Instructions
 ---
 
+This application relies on a file system and inquirer module. If testing is required, this application uses Express.js.
 
+## Note Taker Demo Image
+---
+![Alt text](Assets/11-express-homework-demo-01.png)
+![Alt text](Assets/11-express-homework-demo-02.png)
 
 ## Inquire
 
