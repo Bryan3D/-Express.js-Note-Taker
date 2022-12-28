@@ -1,8 +1,12 @@
+// Declaring several variables that are used to store references to elements on the page. These variables are only defined if the current page is the '/notes' route.
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
+
+// If we are on the notes page, get all notes from the db and render them to the sidebar
 
 if (window.location.pathname === '/notes') {
   noteTitle = document.querySelector('.note-title');
@@ -12,18 +16,20 @@ if (window.location.pathname === '/notes') {
   noteList = document.querySelectorAll('.list-container .list-group');
 }
 
-// Show an element
+// Several functions for performing common tasks, such as showing or hiding elements, making HTTP requests to the server, and rendering the notes to the page.
+
 const show = (elem) => {
   elem.style.display = 'inline';
 };
 
-// Hide an element
 const hide = (elem) => {
   elem.style.display = 'none';
 };
 
-// activeNote is used to keep track of the note in the textarea
+
 let activeNote = {};
+
+// The getNotes function sends an HTTP GET request to the '/api/notes' route to retrieve a list of notes from the server.
 
 const getNotes = () =>
   fetch('/api/notes', {
@@ -32,6 +38,8 @@ const getNotes = () =>
       'Content-Type': 'application/json',
     },
   });
+
+// The saveNote function sends an HTTP POST request to the same route, passing along a new note to be saved to the server.
 
 const saveNote = (note) =>
   fetch('/api/notes', {
@@ -42,6 +50,8 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   });
 
+// The deleteNote function sends an HTTP DELETE request to the '/api/notes/:id' route, passing along the id of the note to be deleted.
+
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
@@ -49,6 +59,10 @@ const deleteNote = (id) =>
       'Content-Type': 'application/json',
     },
   });
+
+
+
+// The renderActiveNote function displays the currently active note, or hides the elements if no note is active.
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);
@@ -66,6 +80,9 @@ const renderActiveNote = () => {
   }
 };
 
+
+// The handleNoteSave function is called whenever the user clicks the save icon. It saves the active note to the db and updates the view.
+
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
@@ -77,9 +94,12 @@ const handleNoteSave = () => {
   });
 };
 
-// Delete the clicked note
+
+
+// The handleNoteDelete function is called when the user clicks the delete icon for a note in the list. It removes the note from the db and updates the view.
 const handleNoteDelete = (e) => {
-  // Prevents the click listener for the list from being called when the button inside of it is clicked
+
+  // prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
 
   const note = e.target;
@@ -95,18 +115,23 @@ const handleNoteDelete = (e) => {
   });
 };
 
-// Sets the activeNote and displays it
+
+// The handleNoteView function is called when the user clicks on a note's title in the list. It sets the activeNote and displays it.
+
 const handleNoteView = (e) => {
   e.preventDefault();
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
   renderActiveNote();
 };
 
-// Sets the activeNote to and empty object and allows the user to enter a new note
+// The handleNewNoteView function is called when the user clicks the 'New Note' button. It sets the activeNote to an empty object and allows the user to enter a new note.
+
 const handleNewNoteView = (e) => {
   activeNote = {};
   renderActiveNote();
 };
+
+// The handleRenderSaveBtn function is called whenever the user types in the note title or text. It determines whether or not the save button should be shown based on the values of the noteTitle and noteText elements.
 
 const handleRenderSaveBtn = () => {
   if (!noteTitle.value.trim() || !noteText.value.trim()) {
@@ -116,7 +141,7 @@ const handleRenderSaveBtn = () => {
   }
 };
 
-// Render the list of note titles
+// The renderNoteList function renders the list of note titles to the sidebar, setting up an event listener for each one to handle viewing, deleting, or editing a note.
 const renderNoteList = async (notes) => {
   let jsonNotes = await notes.json();
   if (window.location.pathname === '/notes') {
@@ -125,7 +150,8 @@ const renderNoteList = async (notes) => {
 
   let noteListItems = [];
 
-  // Returns HTML element with or without a delete button
+  // the script sets up event listeners for various user actions, such as clicking on buttons or typing in the textarea. These event listeners call the appropriate functions to handle the user's actions.
+
   const createLi = (text, delBtn = true) => {
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
@@ -170,8 +196,10 @@ const renderNoteList = async (notes) => {
   }
 };
 
-// Gets notes from the db and renders them to the sidebar
+
+// The getAndRenderNotes function is called when the page loads. It gets the notes from the db and renders them to the sidebar.
 const getAndRenderNotes = () => getNotes().then(renderNoteList);
+
 
 if (window.location.pathname === '/notes') {
   saveNoteBtn.addEventListener('click', handleNoteSave);
